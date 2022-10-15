@@ -65,6 +65,20 @@ const keegan = new THREE.Mesh(
 );
 scene.add(keegan);
 
+// Moon
+const moonTexture = new THREE.TextureLoader().load('moon.jpg');
+const normalTexture = new THREE.TextureLoader().load('normal.jpg')
+
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(8, 32, 32),
+  new THREE.MeshBasicMaterial( {
+    map: moonTexture,
+    normalMap: normalTexture,
+  } )
+);
+scene.add(moon);
+moon.translateX(10);
+moon.translateY(10);
 
 // Infinite loop to continue rerendering scene
 function animate() {
