@@ -25,8 +25,8 @@ const gridHelper = new THREE.GridHelper(200,50);
 scene.add(lightHelper, gridHelper);
 
 // Ambient light will brighten entire background
-const ambientLight = new THREE.AmbientLight(0xfffff);
-scene.add(ambientLight);
+// const ambientLight = new THREE.AmbientLight(0xfffff);
+// scene.add(ambientLight);
 
 // Instantiate orbit controls object
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -34,15 +34,15 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 // Create 3-D objects to display
 // Torus Knot
-const geometry = new THREE.TorusKnotGeometry( 10, 3, 64, 8, 2, 3 );
-const material = new THREE.MeshStandardMaterial( { color: 0xF030B0, wireframe: true } );
+const geometry = new THREE.TorusKnotGeometry( 15, 3, 64, 8, 2, 3 );
+const material = new THREE.MeshStandardMaterial( { color: 0xC7E3FF, wireframe: true } );
 const torusKnot = new THREE.Mesh(geometry, material);
 scene.add(torusKnot);
 
-// Stars
+// Randomly Generated Stars
 function addStar() {
   const geometry = new THREE.SphereGeometry(0.25, 24, 24);
-  const material = new THREE.MeshStandardMaterial( { color: 0xFFFFFF, wireframe: false } );
+  const material = new THREE.MeshBasicMaterial( { color: 0xFDFFCF, wireframe: false } );
   const star= new THREE.Mesh( geometry, material );
 
   const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
@@ -57,13 +57,20 @@ Array(200).fill().forEach(addStar);
 const spaceTexture = new THREE.TextureLoader().load('space.jpg');
 scene.background = spaceTexture;
 
+// Central Avatar Cube
+const keeganTexture = new THREE.TextureLoader().load('keegan.jpg');
+const keegan = new THREE.Mesh(
+  new THREE.BoxGeometry(10,10,10),
+  new THREE.MeshBasicMaterial( {map: keeganTexture} )
+);
+scene.add(keegan);
+
+
 // Infinite loop to continue rerendering scene
 function animate() {
   requestAnimationFrame(animate);
 
-  torusKnot.rotation.x += 0.001;
-  torusKnot.rotation.y += 0.002;
-  torusKnot.rotation.z += 0.001;
+  torusKnot.rotation.z += -0.001;
 
   controls.update();
 
