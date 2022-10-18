@@ -15,6 +15,7 @@ main {
 header {
   grid-column: 4/8;
   /* margin-bottom: var(--spacing); */
+  margin: auto;
 }
 
 section {

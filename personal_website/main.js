@@ -65,6 +65,52 @@ const keegan = new THREE.Mesh(
 );
 scene.add(keegan);
 
+// Projector and Mouse objects for hyperlinks
+projector = new THREE.Projector();
+mouseVector = new THREE.Vector3();
+windowWidth = window.innerWidth;
+windowHeight = window.innerHeight;
+
+document.addEventListener('mousedown', onDocumentMouseDown, false);
+function onDocumentMouseDown(e) {
+  mouseVector.x = 2 * (e.clientX / windowWidth) - 1;
+  mouseVector.y = 1 - 2 * ( e.clientY / windowHeight );
+}
+
+// Hyperlink Cubes
+const githubTexture = new THREE.TextureLoader().load('github.png');
+const githubCube = new THREE.Mesh(
+  new THREE.BoxGeometry(3,3,3),
+  new THREE.MeshBasicMaterial( {map: githubTexture} )
+);
+scene.add(githubCube);
+githubCube.position.set(-10,-10,3);
+githubCube.userData = { URL: "http://stackoverflow.com"};
+
+const linkedinTexture = new THREE.TextureLoader().load('linkedin.png');
+const linkedinCube = new THREE.Mesh(
+  new THREE.BoxGeometry(3,3,3),
+  new THREE.MeshBasicMaterial( {map: linkedinTexture} )
+);
+scene.add(linkedinCube);
+linkedinCube.position.set(-5,-10,3);
+
+const devpostTexture = new THREE.TextureLoader().load('devpost.jpg');
+const devpostCube = new THREE.Mesh(
+  new THREE.BoxGeometry(3,3,3),
+  new THREE.MeshBasicMaterial( {map: devpostTexture} )
+);
+scene.add(devpostCube);
+devpostCube.position.set(5,-10,3);
+
+const emailTexture = new THREE.TextureLoader().load('email.webp');
+const emailCube = new THREE.Mesh(
+  new THREE.BoxGeometry(3,3,3),
+  new THREE.MeshBasicMaterial( {map: emailTexture} )
+);
+scene.add(emailCube);
+emailCube.position.set(10,-10,3);
+
 // Moon
 const moonTexture = new THREE.TextureLoader().load('moon.jpg');
 const normalTexture = new THREE.TextureLoader().load('normal.jpg')
@@ -109,9 +155,12 @@ function scrollAnimation() {
 
 document.body.onscroll = scrollAnimation;
 
-
 // Infinite loop to continue rerendering scene
 function animate() {
+
+  let raycaster = projector.pickingRay( mouseVector.clone(), camera );
+  let intersects = raycaster.intersectObjects( cubes.children );
+
   requestAnimationFrame(animate);
 
   torusKnot.rotation.z += -0.001;
