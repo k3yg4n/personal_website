@@ -54,7 +54,7 @@ function addStar() {
 Array(200).fill().forEach(addStar);
 
 // Initialize background
-const spaceTexture = new THREE.TextureLoader().load('space.jpg');
+const spaceTexture = new THREE.TextureLoader().load('space.png');
 scene.background = spaceTexture;
 
 // Central Avatar Cube
@@ -76,9 +76,39 @@ const moon = new THREE.Mesh(
     normalMap: normalTexture,
   } )
 );
+moon.position.x = 30;
 scene.add(moon);
-moon.translateX(10);
-moon.translateY(10);
+
+// Move the camera as the user scrolls down the page
+function scrollAnimation() {
+  moon.rotation.x += 0.02;
+  moon.rotation.y += 0.02;
+  moon.rotation.z += 0.02;
+    const position = (document.body.getBoundingClientRect().top)/8; // divide by 8 to have top position be 1
+
+    console.log(position);
+
+    // print "false" if direction is down and "true" if up
+    let isScrollDown = (this.oldScroll < this.scrollY); 
+    if(isScrollDown) {
+      console.log('scrolling down');
+      torusKnot.position.y += 1;
+      keegan.position.y += 1;
+    } else {
+      console.log('scrolling up');
+      torusKnot.position.y -= 1;
+      keegan.position.y -= 1;
+    }
+    if(position == 1) {
+      torusKnot.position.set(0,0,0);
+      keegan.position.set(0,0,0);
+    }
+
+    this.oldScroll = this.scrollY; 
+}
+
+document.body.onscroll = scrollAnimation;
+
 
 // Infinite loop to continue rerendering scene
 function animate() {

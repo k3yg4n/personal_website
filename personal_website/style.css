@@ -3,3 +3,22 @@ canvas {
   top: 0;
   left: 0;
 }
+
+main {
+  position: absolute;
+  color:white;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+header {
+  grid-column: 4/8;
+  /* margin-bottom: var(--spacing); */
+}
+
+section {
+  grid-column: 2/8;
+  padding: 1rem;
+  /* margin-bottom: var(--spacing); */
+}
